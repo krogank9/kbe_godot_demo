@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="PrismMesh" id=3]
+
+left_to_right = 0.5
+size = Vector3( 2, 2, 2 )
+subdivide_width = 0
+subdivide_height = 0
+subdivide_depth = 0
+
+[sub_resource type="BoxShape" id=2]
+
+extents = Vector3( 1, 1, 1 )
+
+[node name="Char" type="KinematicBody"]
+
+input_ray_pickable = true
+input_capture_on_drag = false
+collision_layer = 1
+collision_mask = 1
+axis_lock_linear_x = false
+axis_lock_linear_y = false
+axis_lock_linear_z = false
+axis_lock_angular_x = false
+axis_lock_angular_y = false
+axis_lock_angular_z = false
+collision/safe_margin = 0.001
+_sections_unfolded = [ "Visibility" ]
+
+[node name="MeshInstance" type="MeshInstance" parent="." index="0"]
+
+transform = Transform( 0.765582, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 3 )
+skeleton = NodePath("..")
+material/0 = null
+_sections_unfolded = [ "Transform", "Visibility", "material" ]
+
+[node name="CollisionShape" type="CollisionShape" parent="." index="1"]
+
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 2 )
+disabled = false
+_sections_unfolded = [ "Transform" ]
+
+
