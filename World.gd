@@ -2,6 +2,7 @@ extends Spatial
 
 var UI
 var PlayerScene = preload("res://Player.tscn")
+var OtherPlayerScene = preload("res://OtherPlayer.tscn")
 var CharScene = preload("res://Char.tscn")
 
 var player = null
@@ -33,6 +34,8 @@ func _process(delta):
 		_player_process(delta)
 	
 func _player_process(delta):
+	if player == null:
+		return
 	var speed = 10
 	var direction = Vector3(0,0,0)
 	if Input.is_action_pressed("ui_left"):
@@ -46,6 +49,8 @@ func _player_process(delta):
 		direction.z += 1
 	var change = direction.normalized() * speed * delta
 	player.translate_object_local(change)
+	UI.info("player pos: (%s,%s,%s)" % [KBEngine.app.player().position.x, KBEngine.app.player().position.y, KBEngine.app.player().position.z])
+	KBEngine.Event.fireIn("updatePlayer", [KBEngine.app.spaceID, player.translation.x, player.translation.y, player.translation.z, player.rotation.y])
 
 func createPlayer():
 	if player != null:
@@ -54,14 +59,14 @@ func createPlayer():
 	if KBEngine.app.entity_type != "Avatar":
 		return
 	var avatar = KBEngine.app.player()
-	if avatar == null:
+	if avatar == null or (avatar.position.x == 0 and avatar.position.y == 0 and avatar.position.z == 0):
 		return
 	
 	var pos = Vector3(avatar.position)
 	if avatar.isOnGround:
 		pos.y = 1.3
 
-	player = addInstance(PlayerScene, pos, Vector3(avatar.direction))
+	player = addInstance(PlayerScene, pos, convert_dir(avatar.direction))
 	avatar.renderObj = player
 	
 	set_position(avatar)
@@ -75,17 +80,23 @@ func addSpaceGeometryMapping(respath):
 func onEnterWorld(entity):
 	if entity.isPlayer():
 		return
-	var y = entity.position.y
-	if entity.isOnGround:
-		y = 1.3
-	var pos = Vector3(entity.position.x, y, entity.position.z)
 	
-	entity.renderObj = addInstance(CharScene, pos, convert_dir(entity.direction))
+	var pos = Vector3(entity.position)
+	if entity.isOnGround:
+		pos.y = 1.3
+	
+	if entity.className == "Avatar":
+		entity.renderObj = addInstance(OtherPlayerScene, pos, convert_dir(entity.direction))
+	else:
+		entity.renderObj = addInstance(CharScene, pos, convert_dir(entity.direction))
 	entity.renderObj.set_name(entity.className+"_"+str(entity.id))
 
 func onLeaveWorld(entity):
 	if entity.renderObj == null:
 		return
+	
+	if entity.renderObj == player:
+		player = null
 	
 	entity.renderObj.queue_free()
 	entity.renderObj = null
@@ -93,7 +104,7 @@ func onLeaveWorld(entity):
 func set_position(entity):
 	if entity.renderObj == null:
 		return
-	KBEngine.Dbg.DEBUG_MSG(str(entity.position))
+	#KBEngine.Dbg.DEBUG_MSG(str(entity.position))
 	entity.renderObj.translation = Vector3(entity.position)
 
 func set_direction(entity):

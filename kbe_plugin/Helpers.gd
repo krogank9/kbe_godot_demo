@@ -90,10 +90,9 @@ func almostEqual(f1, f2, epsilon):
 	return abs(f1 - f2) < epsilon
 	
 func normalizeRads(rads):
-	rads = rads % (PI*2)
-	if rads > PI:
+	while rads > PI:
 		rads -= PI*2
-	elif rads < -PI:
+	while rads < -PI:
 		rads += PI*2
 	return rads
 

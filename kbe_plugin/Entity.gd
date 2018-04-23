@@ -96,17 +96,15 @@ func callPropertysSetMethods():
 		var oldval = getDefinedPropertyByUType(prop.properUtype)
 		var setmethod = prop.setmethod
 		
-		if setmethod == null:
-			continue
-		
-		if prop.isBase():
-			if inited and not inWorld:
-				self.call(setmethod, oldval)
-		else:
-			if inWorld:
-				if prop.isOwnerOnly() and not isPlayer():
-					continue
-				self.call(setmethod, oldval)
+		if setmethod != null:
+			if prop.isBase():
+				if inited and not inWorld:
+					self.call(setmethod, oldval)
+			else:
+				if inWorld:
+					if prop.isOwnerOnly() and not isPlayer():
+						continue
+					self.call(setmethod, oldval)
 
 func baseCall(methodname, arguments=null):
 	if arguments == null:

@@ -1165,7 +1165,7 @@ func onRemoteMethodCall_(eid, stream):
 	while len(args) < len(methoddata.args):
 		args.append(methoddata.args[len(args)].createFromStream(stream))
 	
-	if entity.has_method(methoddata.handler):
+	if methoddata.handler != null and entity.has_method(methoddata.handler):
 		entity.callv(methoddata.handler, args)
 	else:
 		Dbg.ERROR_MSG("KBEngine::Client_onRemoteMethodCall: %s(%s), method not found(%s.%s) error!" % [entity.className, eid, entity.className, methoddata.name])

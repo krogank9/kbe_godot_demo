@@ -30,7 +30,7 @@ params_point_size = 1.0
 params_billboard_mode = 0
 params_grow = false
 params_use_alpha_scissor = false
-albedo_color = Color( 0.476562, 1, 1, 1 )
+albedo_color = Color( 1, 0, 0, 1 )
 metallic = 0.0
 metallic_specular = 0.5
 metallic_texture_channel = 0
@@ -101,21 +101,5 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0
 shape = SubResource( 3 )
 disabled = false
 _sections_unfolded = [ "Transform" ]
-
-[node name="Camera" type="Camera" parent="." index="2"]
-
-transform = Transform( 1, 0, 0, 0, 0.816031, 0.578008, 0, -0.578008, 0.816031, 0, 4.78708, 5.77968 )
-keep_aspect = 1
-cull_mask = 1048575
-environment = null
-h_offset = 0.0
-v_offset = 0.0
-doppler_tracking = 0
-projection = 0
-current = false
-fov = 70.0
-size = 1.0
-near = 0.05
-far = 100.0
 
 

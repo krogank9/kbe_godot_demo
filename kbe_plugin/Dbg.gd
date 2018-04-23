@@ -5,11 +5,11 @@ func checkPrint(pause=true):
 	lastPrint = OS.get_ticks_msec()
 
 func ERROR_MSG(m):
-	#checkPrint(false)
+	checkPrint()
 	printerr("ERROR: "+m)
 	
 func DEBUG_MSG(m):
-	#checkPrint(false)
+	checkPrint()
 	print("DEBUG: "+m)
 
 func WARNING_MSG(m):

@@ -1,1 +1,15 @@
 extends "res://kbe_scripts/GameObject.gd"
+
+func __init__():
+	if isPlayer():
+		KBEngine.Event.registerIn("updatePlayer", self, "updatePlayer")
+	
+func updatePlayer(currSpaceID, x, y, z, yaw):
+	if currSpaceID > 0 and currSpaceID != KBEngine.app.spaceID:
+		return
+	
+	position.x = x
+	position.y = y
+	position.z = z
+	
+	direction.z = yaw

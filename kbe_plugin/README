@@ -44,3 +44,5 @@
 
  onUpdatePropertys_(): if _bufferedCreateEntityMessage.has(eid): is suspect
  looks like it should be not has like all the other occurences, errors if check not has though.
+ 
+ _bufferedCreateEntityMessage[eid] is null in onCreatedProxies, position not getting set correctly
