@@ -134,7 +134,8 @@ func list_files_in_directory_recur(path):
 				var newdir = dir.get_current_dir()+"/"+file
 				files += list_files_in_directory_recur(newdir)
 			else:
-				files.append(path+"/"+file)
+				if not file.ends_with(".remap"):
+					files.append(path+"/"+file)
 		
 	dir.list_dir_end()
 		
@@ -149,7 +150,7 @@ func get_file_names(path_arr):
 		names.append(name)
 	return names
 
-func preload_files(path_arr):
+func load_files(path_arr):
 	var loads = []
 	for path in path_arr:
 		loads.append( load(path) )
@@ -202,7 +203,7 @@ func instance_classes(classes):
 
 var kbe_scripts_paths = list_files_in_directory_recur("res://kbe_scripts")
 var kbe_scripts_names = get_file_names(kbe_scripts_paths)
-var kbe_scripts_classes = orderClassesByInheritance(preload_files(kbe_scripts_paths), kbe_scripts_names)
+var kbe_scripts_classes = orderClassesByInheritance(load_files(kbe_scripts_paths), kbe_scripts_names)
 var kbe_scripts_instances = instance_classes(kbe_scripts_classes)
 var kbe_instances_dict = make_dict_from_arrs(kbe_scripts_classes, kbe_scripts_instances)
 var kbe_scripts_dict = make_dict_from_arrs(kbe_scripts_names, kbe_scripts_classes)
