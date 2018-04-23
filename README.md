@@ -2,4 +2,4 @@
 
 work in progress
 
-![alt text](sreenshot.png)
+![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot.png)
