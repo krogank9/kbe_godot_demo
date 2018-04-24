@@ -137,7 +137,7 @@ class MemoryStream extends StreamPeerBuffer:
 		y = KBEngine.Helpers.float32ToInt32(KBEngine.Helpers.int32ToFloat32(y) - 2.0)
 		y |= (data & 0x8000) << 16
 		
-		return y
+		return KBEngine.Helpers.int32ToFloat32(y)
 		
 	#####################################################
 	

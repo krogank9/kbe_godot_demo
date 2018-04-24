@@ -4,18 +4,23 @@ func checkPrint(pause=true):
 		OS.delay_msec(80)
 	lastPrint = OS.get_ticks_msec()
 
+func skipPrint():
+	return OS.get_ticks_msec() - lastPrint < 100
+
 func ERROR_MSG(m):
-	checkPrint()
+	checkPrint(false)
 	printerr("ERROR: "+m)
 	
 func DEBUG_MSG(m):
-	checkPrint(false)
-	print("DEBUG: "+m)
+	if !skipPrint():
+		checkPrint(false)
+		print("DEBUG: "+m)
 
 func WARNING_MSG(m):
-	#checkPrint(false)
-	print("WARNING: "+m)
+	if !skipPrint():
+		checkPrint(false)
+		print("WARNING: "+m)
 
 func INFO_MSG(m):
-	#checkPrint(false)
+	checkPrint(false)
 	print("INFO: "+m)

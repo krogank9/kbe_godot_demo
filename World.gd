@@ -64,9 +64,10 @@ func _player_process(delta):
 	if player.translation.y <= groundHeight:
 		player.translation.y = groundHeight
 		playerYVel = 0
+		KBEngine.app.player().isOnGround = true
 	if Input.is_key_pressed(KEY_SPACE) and player.translation.y == groundHeight:
 		playerYVel = 20*delta
-		#KBEngine.app.player().isOnGround = false
+		KBEngine.app.player().isOnGround = false
 	change.y += playerYVel
 	player.translate_object_local(change)
 	
@@ -145,6 +146,9 @@ func set_direction(entity):
 func updatePosition(entity):
 	if entity.renderObj == null:
 		return
+	
+	#if entity.position.y == 1.5:
+	#KBEngine.Dbg.DEBUG_MSG("render::updatePosition("+str(entity.position)+")")
 	
 	var pos = Vector3(entity.position)
 	if entity.isOnGround:
