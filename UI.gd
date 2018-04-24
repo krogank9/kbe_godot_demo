@@ -2,6 +2,26 @@ extends Control
 
 var avatarList = []
 
+const STATE_LOGIN = 0
+const STATE_AVATAR = 1
+const STATE_WORLD = 2
+func set_game_state(state):
+	if state == STATE_LOGIN:
+		$loginWindow.show()
+		$avatarWindow.hide()
+		get_node("../World").clearWorld()
+		get_node("../World").hide()
+	elif state == STATE_AVATAR:
+		clearAvatarList()
+		$avatarWindow.show()
+		$loginWindow.hide()
+		get_node("../World").clearWorld()
+		get_node("../World").hide()
+	elif state == STATE_WORLD:
+		$avatarWindow.hide()
+		$loginWindow.hide()
+		get_node("../World").show()
+
 func err(msg):
 	$versionInfo.add_color_override("font_color", Color(1,0,0))
 	$debugInfo.add_color_override("font_color", Color(1,0,0))
@@ -13,8 +33,7 @@ func info(msg):
 	$debugInfo.text = msg
 
 func _ready():
-	$loginWindow.show()
-	$avatarWindow.hide()
+	set_game_state(STATE_LOGIN)
 	#connection events
 	KBEngine.Event.registerOut("onKicked", self, "onKicked")
 	KBEngine.Event.registerOut("onDisconnected", self, "onDisconnected")
@@ -61,20 +80,17 @@ func _on_createButton_pressed():
 	info("Connecting to server...")
 	KBEngine.Event.fireIn("createAccount", [$loginWindow/usernameEdit.text, $loginWindow/passwordEdit.text, "kbengine_unity3d_demo".to_utf8()])
 
-
 ##########
 # Events #
 ##########
 
 # connection events
 
-var startRelogin = true
+var startRelogin = 4
 
 func onKicked(failedcode):
 	err("kicked, disconnected! reason=" + KBEngine.app.serverErr(failedcode));
-	$loginWindow.show()
-	$avatarWindow.hide()
-	get_node("../World").hide()
+	set_game_state(STATE_LOGIN)
 
 func onDisconnected():
 	err("disconnected! will try to reconnect...");
@@ -90,13 +106,16 @@ func onReloginBaseappTimer():
 		err("disconnected!")
 		return
 		
-	if startRelogin:
+	if startRelogin > 0:
+		startRelogin -= 1
 		KBEngine.app.reloginBaseapp()
 		var timer = Timer.new()
 		timer.connect("timeout", self, "onReloginBaseappTimer")
 		timer.set_wait_time(1)
 		timer.one_shot = true
 		timer.start()
+	else:
+		$loginWindow.visible
 
 func onConnectionState(success):
 	if !success:
@@ -132,10 +151,7 @@ func onLoginBaseappFailed(failcode):
 
 func onLoginSuccessfully(rndUUID, eid, accountEntity):
 	info("login successful!")
-	clearAvatarList()
-	$avatarWindow.show()
-	$loginWindow.hide()
-	#SceneManager.LoadScene("selavatars");
+	set_game_state(STATE_AVATAR)
 
 func onReloginBaseappFailed(failcode):
 	err("relogin failed, err="+KBEngine.app.serverErr(failcode))
@@ -184,6 +200,9 @@ func onReqAvatarList(newAvatarList):
 		button.rect_size.y = 35
 		button.rect_position.x += x
 		x += button.rect_size.x + 10
+		if selAvatarDBID == 0:
+			button._pressed()
+			button.grab_focus()
 
 func onCreateAvatarResult(retcode, info, newAvatarList):
 	if retcode != 0:
@@ -209,6 +228,7 @@ func _avatar_process():
 				onReqAvatarList(account.avatars)
 
 func clearAvatarList():
+	selAvatarDBID = 0
 	for child in $avatarWindow/AvatarList.get_children():
 		child.queue_free()
 
@@ -218,10 +238,7 @@ func _on_EnterGame_pressed():
 	else:
 		info("Please wait...")
 		KBEngine.Event.fireIn("selectAvatarGame", [selAvatarDBID])
-		$avatarWindow.hide()
-		$loginWindow.hide()
-		get_node("../World").show()
-		#SceneManager.LoadScene("world");
+		set_game_state(STATE_WORLD)
 
 func _on_CreateAvatar_pressed():
 	$avatarWindow/createAvatarPanel.show()

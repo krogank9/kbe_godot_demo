@@ -6,13 +6,7 @@
 
  does events mutex need if(KBEngineApp.app == null) for monitor_Enter/Exit funcs?
 
- NetworkInterface should eventually support UDP and encryption
-
  Eventually fix grammar of functions/variables
-
- check to make sure all string addition has String() calls when needed, especially KBEngine.Dbg calls
- 
- c# plugin gives unity directions in degrees, for godot should use radians
  
  App.gd line 1383 updatePlayerToServer() -- maybe godot already normalizes radians. check back
  
@@ -21,22 +15,14 @@
  CB tick vars should maybe have mutex in App.gd
  
 ----
- looks like it takes a long time on Client_onImportClientEntityDef and then
- fails on bundle.newMessage(Messages.messages["Baseapp_loginBaseapp"])
- when it tries to update properties on entity 107 which doesn't exist on 
- client...
- 
- need to vet whole KBEngine.gd file to make sure logic is accurately copied 
- from c# plugin.
- 
- -seems like it calls login_loginapp() twice from debug messages
 
+ -the return false thing. there was a return false somewhere with weird indentation after if statement in c# plugin. need to find again
  
- -the return false thing
+ -connection drops sometimes without notifying client. networkinterface invalid when try to move
+ -onKicked doesn't always work correctly. can bug it out sometimes by logging in
 
 ###godot bugs
- pasting long string in search replace glitches it so you can't see text even after deleting
- bug once occured replacing many semicolons in large selection
+ crash once occured replacing many semicolons in large selection
  distraction free mode changes line number
 
 ###kbe c# plugin bugs:

@@ -535,7 +535,7 @@ _sections_unfolded = [ "custom_colors" ]
 script = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="MeshInstance" type="MeshInstance" parent="World" index="0"]
+[node name="Ground" type="MeshInstance" parent="World" index="0"]
 
 editor/display_folded = true
 transform = Transform( 500, 0, 0, 0, 1, 0, 0, 0, 500, 0, -1.14669, 0 )
@@ -553,7 +553,7 @@ skeleton = NodePath("..")
 material/0 = SubResource( 3 )
 _sections_unfolded = [ "Geometry", "Transform", "material" ]
 
-[node name="StaticBody" type="StaticBody" parent="World/MeshInstance" index="0"]
+[node name="StaticBody" type="StaticBody" parent="World/Ground" index="0"]
 
 input_ray_pickable = true
 input_capture_on_drag = false
@@ -564,10 +564,12 @@ bounce = 0.0
 constant_linear_velocity = Vector3( 0, 0, 0 )
 constant_angular_velocity = Vector3( 0, 0, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="World/MeshInstance/StaticBody" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="World/Ground/StaticBody" index="0"]
 
 shape = SubResource( 4 )
 disabled = false
+
+[node name="Entities" type="Spatial" parent="World" index="1"]
 
 [connection signal="pressed" from="UI/avatarWindow/EnterGame" to="UI" method="_on_EnterGame_pressed"]
 

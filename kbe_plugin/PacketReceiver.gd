@@ -15,6 +15,8 @@ func networkInterface():
 	return _networkInterface
 
 func process():
+	if _networkInterface._socket == null or _networkInterface._socket.get_status() != StreamPeerTCP.STATUS_CONNECTED:
+		return
 	if _networkInterface._socket.get_available_bytes() > 0:
 		var result = _networkInterface._socket.get_partial_data(RECV_BUFFER_MAX)
 		if result[0] == OK:

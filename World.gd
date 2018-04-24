@@ -11,18 +11,23 @@ var groundHeight = 1.5
 
 func addInstance(scene, pos, dir):
 	var node = scene.instance()
-	add_child(node)
+	$Entities.add_child(node)
 	node.translation = pos
 	node.rotation = dir
 	return node
+
+func clearWorld():
+	if player != null:
+		player.queue_free()
+		player = null
+	for child in $Entities.get_children():
+		child.queue_free()
 	
 func convert_dir(v):
 	return Vector3(v.x, v.z, v.y)
 
 func _ready():
 	UI = get_node("../UI")
-	# test
-	KBEngine.Event.registerOut("onKicked", self, "onKicked")
 	# in world
 	KBEngine.Event.registerOut("addSpaceGeometryMapping", self, "addSpaceGeometryMapping")
 	KBEngine.Event.registerOut("onEnterWorld", self, "onEnterWorld")
@@ -31,11 +36,6 @@ func _ready():
 	KBEngine.Event.registerOut("set_direction", self, "set_direction")
 	KBEngine.Event.registerOut("updatePosition", self, "updatePosition")
 	KBEngine.Event.registerOut("onControlled", self, "onControlled")
-
-func onKicked(err):
-	if player != null:
-		player.queue_free()
-		player = null
 
 func _process(delta):
 	createPlayer()
@@ -102,12 +102,10 @@ func addSpaceGeometryMapping(respath):
 func onEnterWorld(entity):
 	if entity.isPlayer():
 		return
-		
-	print("onEnterWorld")
 	
 	var pos = Vector3(entity.position)
 	if entity.isOnGround:
-		pos.y = 1.3
+		pos.y = groundHeight
 	
 	if entity.className == "Avatar":
 		entity.renderObj = addInstance(OtherPlayerScene, pos, convert_dir(entity.direction))
@@ -119,8 +117,6 @@ func onLeaveWorld(entity):
 	if entity.renderObj == null:
 		return
 	
-	print("onLeaveWorld")
-	
 	if entity.renderObj == player:
 		player = null
 	
@@ -130,8 +126,7 @@ func onLeaveWorld(entity):
 func set_position(entity):
 	if entity.renderObj == null:
 		return
-	print("render::set_position("+str(entity.position)+")")
-	#KBEngine.Dbg.DEBUG_MSG(str(entity.position))
+
 	var pos = Vector3(entity.position)
 	if entity.isOnGround:
 		pos.y = groundHeight
@@ -146,9 +141,6 @@ func set_direction(entity):
 func updatePosition(entity):
 	if entity.renderObj == null:
 		return
-	
-	#if entity.position.y == 1.5:
-	#KBEngine.Dbg.DEBUG_MSG("render::updatePosition("+str(entity.position)+")")
 	
 	var pos = Vector3(entity.position)
 	if entity.isOnGround:

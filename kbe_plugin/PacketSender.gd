@@ -65,7 +65,7 @@ func _asyncSendQueue(thread_userdata):
 		Dbg.WARNING_MSG("PacketSender::_asyncSendQueue(): network interface invalid!")
 		return
 	
-	while true:
+	while _socket != null and _socket.get_status() == StreamPeerTCP.STATUS_CONNECTED:
 		if len_queued_data() > 0:
 			var result = _socket.put_data(peek_queued_data().getBuffer())
 			if result != OK:
