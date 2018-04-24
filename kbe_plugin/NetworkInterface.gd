@@ -123,7 +123,6 @@ func connectTo(ip, port, callback, userData):
 	connect_thread.start(self, "_asyncConnect", state)
 
 func send(stream):
-	print("NetworkInterface::send()")
 	if not valid():
 		Dbg.ERROR_MSG("Invalid socket")
 		return

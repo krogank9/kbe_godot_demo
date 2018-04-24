@@ -93,7 +93,7 @@ _sections_unfolded = [ "Albedo" ]
 
 points = PoolVector3Array( -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1 )
 
-[node name="Base" type="Node"]
+[node name="Base" type="Node" index="0"]
 
 _sections_unfolded = [ "Material" ]
 
@@ -120,7 +120,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -9.0
 margin_top = -24.0
-margin_right = 1022.0
+margin_right = 1026.0
 margin_bottom = 614.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -325,14 +325,13 @@ align = 1
 
 [node name="loginWindow" type="Panel" parent="UI" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -9.0
 margin_top = -24.0
-margin_right = 1022.0
+margin_right = 1026.0
 margin_bottom = 614.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -358,7 +357,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 1
 size_flags_horizontal = 1
 size_flags_vertical = 1
-text = "123123"
+text = "123123a"
 focus_mode = 2
 context_menu_enabled = true
 placeholder_alpha = 0.6

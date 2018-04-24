@@ -9,7 +9,7 @@ func ERROR_MSG(m):
 	printerr("ERROR: "+m)
 	
 func DEBUG_MSG(m):
-	checkPrint()
+	checkPrint(false)
 	print("DEBUG: "+m)
 
 func WARNING_MSG(m):
