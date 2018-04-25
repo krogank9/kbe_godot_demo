@@ -14,8 +14,6 @@ var name_label
 func _ready():
 	hp_label = Label.new()
 	name_label = Label.new()
-	#var f = load("res://Symbola.tres")
-	#f.size = 20
 	hp_label.align = HALIGN_CENTER
 	hp_label.valign = VALIGN_CENTER
 	hp_label.add_color_override("font_color", ColorN("red"))
@@ -28,7 +26,7 @@ func _ready():
 	add_child(name_label)
 	pass
 
-var lastSetHP = 0
+var lastSetHP = -1
 func _process(delta):
 	if lastSetHP != HP:
 		if HP <= 0:

@@ -91,7 +91,7 @@ func _player_process(delta):
 		KBEngine.Event.fireIn("jump")
 		#KBEngine.app.player().isOnGround = false
 	
-	UI.info("player pos: (%s,%s,%s)" % [KBEngine.app.player().position.x, KBEngine.app.player().position.y, KBEngine.app.player().position.z])
+	#UI.info("player pos: (%s,%s,%s)" % [KBEngine.app.player().position.x, KBEngine.app.player().position.y, KBEngine.app.player().position.z])
 	var pos = convert_pos(player.translation)
 	KBEngine.Event.fireIn("updatePlayer", [KBEngine.app.spaceID, pos.x, groundHeight, pos.z, player.rotation.y])
 
