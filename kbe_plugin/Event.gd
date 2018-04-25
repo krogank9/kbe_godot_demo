@@ -171,16 +171,12 @@ func fireOut(eventname, args=null):
 	#KBEngine.Dbg.DEBUG_MSG("Fired out event '%s'" % eventname)
 	fire_(events_out, firedEvents_out, eventname, args)
 
-func fireIn(eventname, args=null):
-	if args == null:
-		args = []
+func fireIn(eventname, args=[]):
 	#KBEngine.Dbg.DEBUG_MSG("Fired in event '%s'" % eventname)
 	fire_(events_in, firedEvents_in, eventname, args)
 
 #Triggers events that can be received by both the plug-in and rendering layers
-func fireAll(eventname, args=null):
-	if args == null:
-		args = []
+func fireAll(eventname, args=[]):
 	fire_(events_in, firedEvents_in, eventname, args)
 	fire_(events_out, firedEvents_out, eventname, args)
 

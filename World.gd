@@ -1,6 +1,6 @@
 extends Spatial
 
-var UI
+onready var UI = get_node("../UI")
 var PlayerScene = preload("res://Player.tscn")
 var OtherPlayerScene = preload("res://OtherPlayer.tscn")
 var CharScene = preload("res://Char.tscn")
@@ -8,6 +8,7 @@ var CharScene = preload("res://Char.tscn")
 var player = null
 var playerYVel = 0
 var groundHeight = 1.5
+var jumpVel = 20
 
 func addInstance(scene, pos, dir):
 	var node = scene.instance()
@@ -26,9 +27,11 @@ func clearWorld():
 func convert_dir(v):
 	return Vector3(v.x, v.z, v.y)
 
+func convert_pos(v):
+	return Vector3(v.x, v.y, v.z)
+
 func _ready():
-	UI = get_node("../UI")
-	# in world
+	# protocol world events
 	KBEngine.Event.registerOut("addSpaceGeometryMapping", self, "addSpaceGeometryMapping")
 	KBEngine.Event.registerOut("onEnterWorld", self, "onEnterWorld")
 	KBEngine.Event.registerOut("onLeaveWorld", self, "onLeaveWorld")
@@ -36,6 +39,22 @@ func _ready():
 	KBEngine.Event.registerOut("set_direction", self, "set_direction")
 	KBEngine.Event.registerOut("updatePosition", self, "updatePosition")
 	KBEngine.Event.registerOut("onControlled", self, "onControlled")
+	
+	# script world events
+	KBEngine.Event.registerOut("onAvatarEnterWorld", self, "onAvatarEnterWorld")
+	KBEngine.Event.registerOut("set_HP", self, "set_HP")
+	KBEngine.Event.registerOut("set_MP", self, "set_MP")
+	KBEngine.Event.registerOut("set_HP_Max", self, "set_HP_Max")
+	KBEngine.Event.registerOut("set_MP_Max", self, "set_MP_Max")
+	KBEngine.Event.registerOut("set_level", self, "set_level")
+	KBEngine.Event.registerOut("set_name", self, "set_entityName")
+	KBEngine.Event.registerOut("set_state", self, "set_state")
+	KBEngine.Event.registerOut("set_moveSpeed", self, "set_moveSpeed")
+	KBEngine.Event.registerOut("set_modelScale", self, "set_modelScale")
+	KBEngine.Event.registerOut("set_modelID", self, "set_modelID")
+	KBEngine.Event.registerOut("recvDamage", self, "recvDamage")
+	KBEngine.Event.registerOut("otherAvatarOnJump", self, "otherAvatarOnJump")
+	KBEngine.Event.registerOut("onAddSkill", self, "onAddSkill")
 
 func _process(delta):
 	createPlayer()
@@ -60,19 +79,21 @@ func _player_process(delta):
 		direction.z += 1
 	var change = direction.normalized() * speed * delta
 	
-	playerYVel -= 1*delta
+	playerYVel -= 40*delta
+	change.y += playerYVel*delta
+	player.translate_object_local(change)
 	if player.translation.y <= groundHeight:
 		player.translation.y = groundHeight
 		playerYVel = 0
 		KBEngine.app.player().isOnGround = true
 	if Input.is_key_pressed(KEY_SPACE) and player.translation.y == groundHeight:
-		playerYVel = 20*delta
-		KBEngine.app.player().isOnGround = false
-	change.y += playerYVel
-	player.translate_object_local(change)
+		playerYVel = jumpVel
+		KBEngine.Event.fireIn("jump")
+		#KBEngine.app.player().isOnGround = false
 	
 	UI.info("player pos: (%s,%s,%s)" % [KBEngine.app.player().position.x, KBEngine.app.player().position.y, KBEngine.app.player().position.z])
-	KBEngine.Event.fireIn("updatePlayer", [KBEngine.app.spaceID, player.translation.x, player.translation.y, player.translation.z, player.rotation.y])
+	var pos = convert_pos(player.translation)
+	KBEngine.Event.fireIn("updatePlayer", [KBEngine.app.spaceID, pos.x, groundHeight, pos.z, player.rotation.y])
 
 func createPlayer():
 	if player != null:
@@ -94,7 +115,7 @@ func createPlayer():
 	set_position(avatar)
 	set_direction(avatar)
 	
-# world events
+# protocol world events
 
 func addSpaceGeometryMapping(respath):
 	UI.info("scene(%s), spaceID=%s" % [respath, KBEngine.app.spaceID])
@@ -103,7 +124,7 @@ func onEnterWorld(entity):
 	if entity.isPlayer():
 		return
 	
-	var pos = Vector3(entity.position)
+	var pos = convert_pos(entity.position)
 	if entity.isOnGround:
 		pos.y = groundHeight
 	
@@ -127,9 +148,10 @@ func set_position(entity):
 	if entity.renderObj == null:
 		return
 
-	var pos = Vector3(entity.position)
+	var pos = convert_pos(entity.position)
 	if entity.isOnGround:
 		pos.y = groundHeight
+	entity.renderObj.destPos = pos
 	entity.renderObj.translation = pos
 
 func set_direction(entity):
@@ -142,11 +164,62 @@ func updatePosition(entity):
 	if entity.renderObj == null:
 		return
 	
-	var pos = Vector3(entity.position)
+	var pos = convert_pos(entity.position)
 	if entity.isOnGround:
 		pos.y = groundHeight
-	entity.renderObj.translation = pos
+	entity.renderObj.destPos = pos
 
 func onControlled(entity, isControlled):
 	if entity.renderObj == null:
 		return
+		
+# script world events
+
+func set_HP(entity, val):
+	if entity.renderObj == null:
+		return
+	entity.renderObj.HP = val
+
+func set_MP(entity, val):
+	pass
+
+func set_HP_Max(entity, val):
+	if entity.renderObj == null:
+		return
+	entity.renderObj.HP_max = val
+
+func set_MP_Max(entity, val):
+	pass
+
+func set_level(entity, val):
+	pass
+	
+func set_entityName(entity, val):
+	if entity.renderObj == null:
+		return
+	entity.renderObj.entity_name = val
+
+func set_state(entity, val):
+	pass
+
+func set_moveSpeed(entity, val):
+	if entity.renderObj == null:
+		return
+	entity.renderObj.moveSpeed = val/10.0
+
+func set_modelScale(entity, val):
+	pass
+
+func set_modelID(entity, val):
+	pass
+
+func recvDamage(entity, attacker, skillID, damageType, damage):
+	pass
+
+func otherAvatarOnJump(entity):
+	if entity.renderObj == null:
+		return
+	entity.renderObj.yVel = jumpVel
+
+func onAddSkill(entity):
+	pass

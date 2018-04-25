@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
-[sub_resource type="PrismMesh" id=3]
+[ext_resource path="res://GameEntity.gd" type="Script" id=1]
+
+[sub_resource type="PrismMesh" id=1]
 
 left_to_right = 0.5
 size = Vector3( 2, 2, 2 )
@@ -12,7 +14,7 @@ subdivide_depth = 0
 
 extents = Vector3( 1, 1, 1 )
 
-[node name="Char" type="KinematicBody"]
+[node name="Char" type="KinematicBody" index="0"]
 
 input_ray_pickable = true
 input_capture_on_drag = false
@@ -25,6 +27,7 @@ axis_lock_angular_x = false
 axis_lock_angular_y = false
 axis_lock_angular_z = false
 collision/safe_margin = 0.001
+script = ExtResource( 1 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="0"]
@@ -39,7 +42,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 3 )
+mesh = SubResource( 1 )
 skeleton = NodePath("..")
 material/0 = null
 _sections_unfolded = [ "Transform", "Visibility", "material" ]

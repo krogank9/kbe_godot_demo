@@ -106,10 +106,8 @@ func callPropertysSetMethods():
 						continue
 					self.call(setmethod, oldval)
 
-func baseCall(methodname, arguments=null):
-	if arguments == null:
-		arguments = []
-	
+func baseCall(methodname, arguments=[]):
+
 	if KBEngine.app.currserver == "loginapp":
 		KBEngine.Dbg.ERROR_MSG(className + "::baseCall(" + methodname + "), currserver=!" + KBEngine.app.currserver)
 		return
@@ -144,7 +142,7 @@ func baseCall(methodname, arguments=null):
 	
 	baseEntityCall.sendCall(null)
 
-func cellCall(methodname, arguments):
+func cellCall(methodname, arguments=[]):
 	if KBEngine.app.currserver == "loginapp":
 		KBEngine.Dbg.ERROR_MSG(className + "::cellCall(" + methodname + "), currserver=!" + KBEngine.app.currserver)
 		return
