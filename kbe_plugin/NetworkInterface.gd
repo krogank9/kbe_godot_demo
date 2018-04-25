@@ -46,7 +46,10 @@ func close():
 	if _socket != null:
 		_socket.disconnect_from_host()
 		_socket = null
+		print("NetworkInterface::close() sending onDisconnected")
 		Event.fireAll("onDisconnected", [])
+	else:
+		print("NetworkInterface::close() socket already nulled. not firing onDisconnected")
 	connected = false
 
 func packetReceiver():

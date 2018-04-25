@@ -70,8 +70,8 @@ func _asyncSendQueue(thread_userdata):
 			var result = _socket.put_data(peek_queued_data().getBuffer())
 			if result != OK:
 				Dbg.ERROR_MSG("PacketSender::_asyncSendQueue(): error(%s) sending buffer. disconnected!" % result)
-				Event.fireIn("_closeNetwork", [_networkInterface])
-				return
+				break
 			pop_queued_data()
 		else:
 			OS.delay_msec(5)
+	Event.fireIn("_closeNetwork", [_networkInterface])

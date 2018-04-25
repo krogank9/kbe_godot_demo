@@ -530,6 +530,13 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors" ]
 
+[node name="ReloginTimer" type="Timer" parent="UI" index="4"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
 [node name="World" type="Spatial" parent="." index="1"]
 
 script = ExtResource( 2 )
@@ -582,5 +589,7 @@ disabled = false
 [connection signal="pressed" from="UI/loginWindow/loginButton" to="UI" method="_on_loginButton_pressed"]
 
 [connection signal="pressed" from="UI/loginWindow/createButton" to="UI" method="_on_createButton_pressed"]
+
+[connection signal="timeout" from="UI/ReloginTimer" to="UI" method="_on_ReloginTimer_timeout"]
 
 

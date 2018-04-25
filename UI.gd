@@ -93,15 +93,13 @@ func onKicked(failedcode):
 	set_game_state(STATE_LOGIN)
 
 func onDisconnected():
+	print("disconnected! will try to reconnect...");
 	err("disconnected! will try to reconnect...");
 	var timer = Timer.new()
-	startRelogin = true
-	timer.connect("timeout", self, "onReloginBaseappTimer")
-	timer.set_wait_time(1)
-	timer.one_shot = true
-	timer.start()
+	startRelogin = 3
+	$ReloginTimer.start()
 
-func onReloginBaseappTimer():
+func _on_ReloginTimer_timeout():
 	if $loginWindow.visible:
 		err("disconnected!")
 		return
@@ -109,13 +107,10 @@ func onReloginBaseappTimer():
 	if startRelogin > 0:
 		startRelogin -= 1
 		KBEngine.app.reloginBaseapp()
-		var timer = Timer.new()
-		timer.connect("timeout", self, "onReloginBaseappTimer")
-		timer.set_wait_time(1)
-		timer.one_shot = true
-		timer.start()
+		$ReloginTimer.start()
 	else:
-		$loginWindow.visible
+		set_game_state(STATE_LOGIN)
+		err("disconnected!")
 
 func onConnectionState(success):
 	if !success:
