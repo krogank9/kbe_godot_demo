@@ -2,6 +2,8 @@
 
 work in progress
 
-plugin is all done, maybe a bug or two i missed. now just need to finish demo example
+plugin is all done, maybe a bug or two i missed. relogin seems buggy.
+
+demo is mostly done
 
 ![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot.png)
