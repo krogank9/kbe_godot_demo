@@ -15,7 +15,7 @@ KBE godot demo
 		kbe_plugin directory, and has KBEngine.gd set as a Singleton in 
 		Godot project settings.
 	
-	Godot demo: Responsible for handling the rendering and user 
+	Godot demo:	Responsible for handling the rendering and user 
 		interaction layer. Defines entity client parts in the kbe_scripts 
 		directory (or its subdirectories), which is where the plugin looks
 		when creating entities via the servers command. __init__() and 
@@ -37,7 +37,7 @@ KBE godot demo
 			allow avatar creation/selection
 		World.gd: Manages 3D world, catches events and creates and destroys
 			rendering objects(mesh etc) for each kbe_script entity
-		GameEntity.gd: Attached to rendering objects and handles movement, 
+		GameEntity.gd: Attached to rendering objects and handles smooth movement, 
 			HP/name labels above 3D characters, etc
 
 ## Screenshots
