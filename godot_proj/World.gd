@@ -239,7 +239,7 @@ func recvDamage(entity, attacker, skillID, damageType, damage):
 func otherAvatarOnJump(entity):
 	if entity.renderObj == null:
 		return
-	entity.renderObj.yVel = jumpVel
+	entity.renderObj.queueJump = true
 
 func onAddSkill(entity):
 	pass

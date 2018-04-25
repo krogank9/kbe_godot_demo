@@ -2,6 +2,7 @@ extends KinematicBody
 
 var moveSpeed = 0.0
 var destPos = Vector3()
+var queueJump = false
 var yVel = 0
 
 var HP = 0
@@ -33,14 +34,17 @@ func _process(delta):
 			lastSetHP = HP
 			if has_node("ReviveButton"):
 				get_node("ReviveButton").show()
-			$MeshInstance.get_surface_material(0).albedo_color = Color(1,1,1,0.4)
+			$MeshInstance.get_surface_material(0).albedo_color.a = 0.4
 		else:
 			if has_node("ReviveButton"):
 				get_node("ReviveButton").hide()
 			lastSetHP = HP
-			$MeshInstance.get_surface_material(0).albedo_color = Color(1,1,1,1)
+			$MeshInstance.get_surface_material(0).albedo_color.a = 1.0
 	
 	#jump
+	if queueJump and yVel == 0:
+		yVel = 20
+		queueJump = false
 	yVel -= 40*delta
 	translate_object_local(Vector3(0,yVel*delta,0))
 	if translation.y <= 1.5:
