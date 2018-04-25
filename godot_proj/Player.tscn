@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://GameEntity.gd" type="Script" id=1]
+[ext_resource path="res://Button.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleMesh" id=1]
 
@@ -66,7 +67,7 @@ _sections_unfolded = [ "Albedo", "Flags" ]
 radius = 1.0
 height = 1.0
 
-[node name="Player" type="KinematicBody"]
+[node name="Player" type="KinematicBody" index="0"]
 
 input_ray_pickable = true
 input_capture_on_drag = false
@@ -120,5 +121,31 @@ fov = 70.0
 size = 1.0
 near = 0.05
 far = 100.0
+
+[node name="ReviveButton" type="Button" parent="." index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 383.0
+margin_top = 289.0
+margin_right = 612.0
+margin_bottom = 329.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Revive"
+flat = false
+align = 1
+script = ExtResource( 2 )
 
 

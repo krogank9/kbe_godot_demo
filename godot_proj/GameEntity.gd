@@ -11,14 +11,11 @@ var entity_name = ""
 var hp_label
 var name_label
 
-var custom_font = preload("res://yetgul.tres")
-
 func _ready():
 	hp_label = Label.new()
 	name_label = Label.new()
 	#var f = load("res://Symbola.tres")
 	#f.size = 20
-	hp_label.add_font_override("font", custom_font)
 	hp_label.align = HALIGN_CENTER
 	hp_label.valign = VALIGN_CENTER
 	hp_label.add_color_override("font_color", ColorN("red"))
@@ -36,8 +33,12 @@ func _process(delta):
 	if lastSetHP != HP:
 		if HP <= 0:
 			lastSetHP = HP
+			if has_node("ReviveButton"):
+				get_node("ReviveButton").show()
 			$MeshInstance.get_surface_material(0).albedo_color = Color(1,1,1,0.4)
 		else:
+			if has_node("ReviveButton"):
+				get_node("ReviveButton").hide()
 			lastSetHP = HP
 			$MeshInstance.get_surface_material(0).albedo_color = Color(1,1,1,1)
 	

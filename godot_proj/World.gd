@@ -180,11 +180,6 @@ func set_HP(entity, val):
 	if entity.renderObj == null:
 		KBEngine.Dbg.WARNING_MSG("Tried to call set_HP on %s before ent has renderObj" % entity.className)
 		return
-	if entity.isPlayer():
-		if val <= 0:
-			$ReliveButton.show()
-		else:
-			$ReliveButton.hide()
 	entity.renderObj.HP = val
 
 func set_MP(entity, val):
@@ -194,7 +189,6 @@ func set_HP_Max(entity, val):
 	if entity.renderObj == null:
 		KBEngine.Dbg.WARNING_MSG("Tried to call set_HP_max on %s before ent has renderObj" % entity.className)
 		return
-	entity.renderObj.HP = entity.getDefinedProperty("HP")
 	entity.renderObj.HP_max = val
 
 func set_MP_Max(entity, val):
@@ -249,6 +243,3 @@ func otherAvatarOnJump(entity):
 
 func onAddSkill(entity):
 	pass
-
-func _on_ReliveButton_pressed():
-	KBEngine.Event.fireIn("relive", [0])
