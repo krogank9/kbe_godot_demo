@@ -24,6 +24,9 @@
 ###godot bugs
  crash once occured replacing many semicolons in large selection
  distraction free mode changes line number
+ 
+	hp_label.rect_position = screenPos - Vector2(hp_label.rect_size.x/2, 0)
+	#hp_label.rect_position.x -= hp_label.rect_size.x/2
 
 ###kbe c# plugin bugs:
  i think memoryStream writeString line 275 should be v.Length + 1

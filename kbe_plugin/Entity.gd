@@ -172,7 +172,7 @@ func cellCall(methodname, arguments=[]):
 	
 	for i in range(len(arguments)):
 		if method.args[i].isSameType(arguments[i]):
-			method.args[i].addToStream(baseEntityCall.bundle, arguments[i])
+			method.args[i].addToStream(cellEntityCall.bundle, arguments[i])
 		else:
 			var err_text = "arg" + String(i) + ": " + String(method.args[i])
 			KBEngine.Dbg.ERROR_MSG(className + "::cellCall(method=" + methodname + "): args type error(" + err_text + ")!")

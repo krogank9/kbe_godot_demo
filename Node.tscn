@@ -93,7 +93,7 @@ _sections_unfolded = [ "Albedo" ]
 
 points = PoolVector3Array( -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1 )
 
-[node name="Base" type="Node" index="0"]
+[node name="Base" type="Node"]
 
 _sections_unfolded = [ "Material" ]
 
@@ -325,6 +325,7 @@ align = 1
 
 [node name="loginWindow" type="Panel" parent="UI" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -579,6 +580,32 @@ disabled = false
 
 [node name="Entities" type="Spatial" parent="World" index="1"]
 
+[node name="ReliveButton" type="Button" parent="World" index="2"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 396.0
+margin_top = 285.0
+margin_right = 628.0
+margin_bottom = 333.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Revive"
+flat = false
+align = 1
+_sections_unfolded = [ "Visibility" ]
+
 [connection signal="pressed" from="UI/avatarWindow/EnterGame" to="UI" method="_on_EnterGame_pressed"]
 
 [connection signal="pressed" from="UI/avatarWindow/CreateAvatar" to="UI" method="_on_CreateAvatar_pressed"]
@@ -592,5 +619,7 @@ disabled = false
 [connection signal="pressed" from="UI/loginWindow/createButton" to="UI" method="_on_createButton_pressed"]
 
 [connection signal="timeout" from="UI/ReloginTimer" to="UI" method="_on_ReloginTimer_timeout"]
+
+[connection signal="pressed" from="World/ReliveButton" to="World" method="_on_ReliveButton_pressed"]
 
 

@@ -180,6 +180,11 @@ func set_HP(entity, val):
 	if entity.renderObj == null:
 		KBEngine.Dbg.WARNING_MSG("Tried to call set_HP on %s before ent has renderObj" % entity.className)
 		return
+	if entity.isPlayer():
+		if val <= 0:
+			$ReliveButton.show()
+		else:
+			$ReliveButton.hide()
 	entity.renderObj.HP = val
 
 func set_MP(entity, val):
@@ -197,11 +202,28 @@ func set_MP_Max(entity, val):
 
 func set_level(entity, val):
 	pass
-	
+
+func get_english_name(name):
+	if name == "怪物1":
+		return "Monster1"
+	elif name == "怪物2":
+		return "Monster2"
+	elif name == "传送员":
+		return "Transporter"
+	elif name == "新手接待员":
+		return "Novice receptionist"
+	elif name == "传送门(teleport-local)":
+		return "teleport-local"
+	elif name == "传送门(teleport-back)":
+		return "Portal (teleport back)"
+	elif name == "传送门":
+		return "Portal"
+	else:
+		return name
 func set_entityName(entity, val):
 	if entity.renderObj == null:
 		return
-	entity.renderObj.entity_name = val
+	entity.renderObj.entity_name = get_english_name(val)
 
 func set_state(entity, val):
 	pass
@@ -227,3 +249,6 @@ func otherAvatarOnJump(entity):
 
 func onAddSkill(entity):
 	pass
+
+func _on_ReliveButton_pressed():
+	KBEngine.Event.fireIn("relive", [0])

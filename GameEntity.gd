@@ -31,7 +31,16 @@ func _ready():
 	add_child(name_label)
 	pass
 
+var lastSetHP = 0
 func _process(delta):
+	if lastSetHP != HP:
+		if HP <= 0:
+			lastSetHP = HP
+			$MeshInstance.get_surface_material(0).albedo_color = Color(1,1,1,0.4)
+		else:
+			lastSetHP = HP
+			$MeshInstance.get_surface_material(0).albedo_color = Color(1,1,1,1)
+	
 	#jump
 	yVel -= 40*delta
 	translate_object_local(Vector3(0,yVel*delta,0))

@@ -4,6 +4,7 @@ func __init__():
 	if isPlayer():
 		KBEngine.Event.registerIn("updatePlayer", self, "updatePlayer")
 		KBEngine.Event.registerIn("jump", self, "jump")
+		KBEngine.Event.registerIn("relive", self, "relive")
 	
 func updatePlayer(currSpaceID, x, y, z, yaw):
 	if currSpaceID > 0 and currSpaceID != KBEngine.app.spaceID:
@@ -22,3 +23,6 @@ func onJump():
 
 func jump():
 	cellCall("jump")
+	
+func relive(type):
+	cellCall("relive", [type])

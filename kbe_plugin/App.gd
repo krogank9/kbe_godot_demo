@@ -250,8 +250,6 @@ func _closeNetwork(networkInterface):
 #Send heartbeat to server and synchronize player information to server
 func sendTick():
 	if _networkInterface == null or not _networkInterface.connected:
-		if not _networkInterface.connected:
-			Dbg.ERROR_MSG("KBEngine::sendTick(): networkInterface not connected. stopped ticking")
 		return
 	if not loginappMessageImported_ and not baseappMessageImported_:
 		return

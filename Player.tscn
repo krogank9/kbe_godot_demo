@@ -12,7 +12,7 @@ rings = 8
 [sub_resource type="SpatialMaterial" id=2]
 
 render_priority = 0
-flags_transparent = false
+flags_transparent = true
 flags_unshaded = false
 flags_vertex_lighting = false
 flags_no_depth_test = false
@@ -59,7 +59,7 @@ uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 proximity_fade_enable = false
 distance_fade_enable = false
-_sections_unfolded = [ "Albedo" ]
+_sections_unfolded = [ "Albedo", "Flags" ]
 
 [sub_resource type="CapsuleShape" id=3]
 
