@@ -1,9 +1,10 @@
 # KBEngine Godot Demo
 
-work in progress
+KBE godot demo
 
-plugin is all done, maybe a bug or two i missed. relogin seems buggy.
+## Screenshots
 
-demo is done
-
-![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot.png)
+![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot1.png)
+![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot2.png)
+![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot3.png)
+![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot4.png)
