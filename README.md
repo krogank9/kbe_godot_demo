@@ -18,6 +18,7 @@ KBE godot demo
 	Godot project settings.
 	
 	Godot demo:
+	
 	Responsible for handling the rendering and user 
 	interaction layer. Defines entity client parts in the kbe_scripts 
 	directory (or its subdirectories), which is where the plugin looks
@@ -37,18 +38,15 @@ KBE godot demo
 	kbe_scripts/GameObject.gd: GameObject interface, fires events on property change
 	
 	UI.gd:
-	
 	UI script, catches events thrown by kbe_scripts and built-in 
 	protocol events to display login success/fail notifications, allow 
 	avatar creation/selection
 	
 	World.gd:
-	
 	Manages 3D world, catches events and creates and destroys rendering 
 	objects(mesh etc) for each kbe_script entity
 	
 	GameEntity.gd:
-	
 	Attached to rendering objects and handles smooth movement, HP/name 
 	labels above 3D characters, etc
 
