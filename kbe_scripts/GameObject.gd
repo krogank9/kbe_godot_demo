@@ -2,6 +2,7 @@ extends "res://kbe_plugin/Entity.gd"
 
 func set_HP(old):
 	var v = getDefinedProperty("HP")
+	KBEngine.Dbg.WARNING_MSG("set HP of %s to %s" % [className, v])
 	KBEngine.Event.fireOut("set_HP", [self, v])
 
 func set_MP(old):

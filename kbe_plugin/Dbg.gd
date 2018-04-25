@@ -8,18 +8,16 @@ func skipPrint():
 	return OS.get_ticks_msec() - lastPrint < 100
 
 func ERROR_MSG(m):
-	checkPrint(false)
+	checkPrint()
 	printerr("ERROR: "+m)
 	
 func DEBUG_MSG(m):
-	if !skipPrint():
-		checkPrint(false)
-		print("DEBUG: "+m)
+	checkPrint()
+	print("DEBUG: "+m)
 
 func WARNING_MSG(m):
-	if !skipPrint():
-		checkPrint(false)
-		print("WARNING: "+m)
+	checkPrint()
+	print("WARNING: "+m)
 
 func INFO_MSG(m):
 	checkPrint(false)

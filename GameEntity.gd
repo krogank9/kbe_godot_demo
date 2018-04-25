@@ -4,8 +4,8 @@ var moveSpeed = 0.0
 var destPos = Vector3()
 var yVel = 0
 
-var HP = 100
-var HP_max = 100
+var HP = 0
+var HP_max = 0
 var entity_name = ""
 
 var hp_label
@@ -19,10 +19,12 @@ func _ready():
 	#var f = load("res://Symbola.tres")
 	#f.size = 20
 	hp_label.add_font_override("font", custom_font)
-	#hp_label.align = HALIGN_CENTER
-	#hp_label.valign = VALIGN_CENTER
+	hp_label.align = HALIGN_CENTER
+	hp_label.valign = VALIGN_CENTER
 	hp_label.add_color_override("font_color", ColorN("red"))
 	name_label.add_color_override("font_color", ColorN("yellow"))
+	name_label.align = HALIGN_CENTER
+	name_label.valign = VALIGN_CENTER
 	hp_label.hide()
 	name_label.hide()
 	add_child(hp_label)

@@ -58,8 +58,7 @@ func _ready():
 
 func _process(delta):
 	createPlayer()
-	if player != null:
-		_player_process(delta)
+	_player_process(delta)
 	
 func _player_process(delta):
 	if player == null:
@@ -82,10 +81,11 @@ func _player_process(delta):
 	playerYVel -= 40*delta
 	change.y += playerYVel*delta
 	player.translate_object_local(change)
+	player.destPos = player.translation
+	
 	if player.translation.y <= groundHeight:
 		player.translation.y = groundHeight
 		playerYVel = 0
-		KBEngine.app.player().isOnGround = true
 	if Input.is_key_pressed(KEY_SPACE) and player.translation.y == groundHeight:
 		playerYVel = jumpVel
 		KBEngine.Event.fireIn("jump")
@@ -122,6 +122,7 @@ func addSpaceGeometryMapping(respath):
 
 func onEnterWorld(entity):
 	if entity.isPlayer():
+		createPlayer()
 		return
 	
 	var pos = convert_pos(entity.position)
@@ -177,6 +178,7 @@ func onControlled(entity, isControlled):
 
 func set_HP(entity, val):
 	if entity.renderObj == null:
+		KBEngine.Dbg.WARNING_MSG("Tried to call set_HP on %s before ent has renderObj" % entity.className)
 		return
 	entity.renderObj.HP = val
 
@@ -185,7 +187,9 @@ func set_MP(entity, val):
 
 func set_HP_Max(entity, val):
 	if entity.renderObj == null:
+		KBEngine.Dbg.WARNING_MSG("Tried to call set_HP_max on %s before ent has renderObj" % entity.className)
 		return
+	entity.renderObj.HP = entity.getDefinedProperty("HP")
 	entity.renderObj.HP_max = val
 
 func set_MP_Max(entity, val):
