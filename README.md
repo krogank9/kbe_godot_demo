@@ -71,7 +71,7 @@ notification from the server, synchronizes their attributes, and allows
 for calling methods on equivalent base/cell entities on the server and 
 allows the server to call methods on client entities. Provides an Event 
 class for asynchronous communication with the plugin and KBE entities across multiple threads.
-All plugin files reside in the kbe_plugin directory, and has KBEngine.gd
+All plugin files reside in the kbe_plugin directory, and KBEngine.gd is
 set as a Singleton in Godot project settings.
 
 ### Godot demo:
