@@ -41,11 +41,6 @@ http://www.kbengine.org
 ![demo_configure](http://www.kbengine.org/assets/img/screenshots/demo_copy_kbengine.jpg)
 
 
-	4. Generate a Client plugins from the server-side asset library (optional, one by default unless the server-assets is modified)
-		1: Double-click to run kbengine/kbengine_demos_asset/gensdk.bat
-		2: Copy kbengine_unity3d_plugins to kbengine_unity3d_demo\Assets\Plugins\
-
-
 ## Start the Servers:
 
 	Ensure that the "kbengine_unity3d_demo\kbengine_demos_assets" has been copied to the "kbengine\" directory
