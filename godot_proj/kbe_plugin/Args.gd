@@ -29,7 +29,7 @@ var SEND_BUFFER_MAX = 2048#1460 KBEngine.TCP_PACKET_MAX
 var RECV_BUFFER_MAX = 8192#1460 KBEngine.TCP_PACKET_MAX
 
 #Start KBEngine client app on another thread
-var isMultiThreads = false
+var isMultiThreads = true
 
 #Only enabled in multithreaded mode
 #Thread main loop processing frequency

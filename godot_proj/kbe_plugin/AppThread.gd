@@ -8,7 +8,7 @@ class KBEThread:
 	func _init(app):
 		app_ = app
 	
-	func run():
+	func run(thread_userdata):
 		KBEngine.Dbg.INFO_MSG("KBEThread::run()")
 		over = false
 		
