@@ -23,10 +23,7 @@ var useAliasEntityID = true
 
 #Whether to trigger the set_* event of the property when
 # the Entity is initialized (callPropertysSetMethods)
-var isOnInitCallPropertySetMethods = true
-
-var SEND_BUFFER_MAX = 2048#1460 KBEngine.TCP_PACKET_MAX
-var RECV_BUFFER_MAX = 8192#1460 KBEngine.TCP_PACKET_MAX
+var callPropertySetMethodsOnInit = true
 
 #Start KBEngine client app on another thread
 #Note: when debugging, always use single threading.

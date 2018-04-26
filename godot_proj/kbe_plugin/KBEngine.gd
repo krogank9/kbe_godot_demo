@@ -51,9 +51,3 @@ func _process(delta):
 		app.process()
 	
 	Event.processOutEvents()
-
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		Dbg.DEBUG_MSG("NetworkInterface::_notification(): NOTIFICATION_PREDELETE: destroying KBEngine.app...")
-		app.destroy()
-		KBEngine.Dbg.DEBUG_MSG("NetworkInterface::_notification(): NOTIFICATION_PREDELETE: destroyed KBEngine.app!");

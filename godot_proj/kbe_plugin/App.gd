@@ -1046,7 +1046,7 @@ func Client_onCreatedProxies(rndUUID, eid, entityType):
 		entity.__init__()
 		entity.inited = true
 		
-		if _args.isOnInitCallPropertySetMethods:
+		if _args.callPropertySetMethodsOnInit:
 			entity.callPropertysSetMethods()
 	
 	else:
@@ -1231,7 +1231,7 @@ func Client_onEntityEnterWorld(stream):
 		entity.inWorld = true
 		entity.enterWorld()
 		
-		if _args.isOnInitCallPropertySetMethods:
+		if _args.callPropertySetMethodsOnInit:
 			entity.callPropertysSetMethods()
 	
 	else:
@@ -1259,7 +1259,7 @@ func Client_onEntityEnterWorld(stream):
 			entity.inWorld = true
 			entity.enterWorld()
 			
-			if _args.isOnInitCallPropertySetMethods:
+			if _args.callPropertySetMethodsOnInit:
 				entity.callPropertysSetMethods()
 
 #The server informs an entity that it has left the world (optimized to get entity by alias)
