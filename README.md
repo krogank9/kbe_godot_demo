@@ -65,16 +65,7 @@ http://www.kbengine.org
 
 	Directly start from Godot editor or executable
 	(Build the client： Godot -> Project -> Export Linux/Mac/Windows.)
-
-
-## Navmesh-navigation(Optional):
 	
-	The server to use recastnavigation navigation.
-	Recastnavigation generated navigation mesh (Navmeshs) placed on the:
-		kbengine\kbengine_demos_assets\res\spaces\*
-
-	Generation Navmeshs:
-		https://github.com/kbengine/unity3d_nav_critterai
 
 # Plugin & Demo explanation:
 
