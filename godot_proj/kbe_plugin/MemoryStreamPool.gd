@@ -200,7 +200,7 @@ class MemoryStream extends StreamPeerBuffer:
 		
 		writeUint32(size)
 		if typeof(v) == TYPE_STRING:
-			v = v.to_ascii() #note: doesn't have null terminator
+			v = v.to_ascii() #no \0 terminator
 		
 		for _byte in v:
 			writeUint8(_byte)
