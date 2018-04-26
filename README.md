@@ -29,7 +29,10 @@ entity methods to be received by the render layer.
 	
 ### Directory structure:
 
-	kbe_plugin/: KBE plugin script files, KBEngine.gd set as Singleton
+	kbe_plugin/: KBE plugin script files
+	kbe_plugin/KBEngine.gd: Set as Singleton which starts/manages plugin
+	kbe_plugin/Args.gd: Modify to change KBE client settings
+	
 	kbe_scripts/: Contains all client entity definitions. Place all yours here
 	kbe_scripts/Account.gd: Account client entity definition. Created on login
 	kbe_scripts/Account.gd: Avatar client entity definition.
