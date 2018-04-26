@@ -42,7 +42,6 @@ http://www.kbengine.org
 ## Start the Servers:
 
 	Ensure that the "kbengine_demos_assets" has been copied to the "kbengine\" directory
-		Reference：Start
 
 	Check the startup status:
 		If successful will find log "Components::process(): Found all the components!".
