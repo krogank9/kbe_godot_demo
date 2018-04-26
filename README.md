@@ -2,9 +2,9 @@
 
 KBE godot demo
 
-## Plugin & Demo explanation:
+# Plugin & Demo explanation:
 
-# Plug-in:
+### Plug-in:
 	
 Responsible for the handling of the network, establishing connection to 
 the server, and sending/receiving binary data through TCP stream. 
@@ -16,7 +16,7 @@ class for asynchronous communication with the plugin and KBE entities across mul
 kbe_plugin directory, and has KBEngine.gd set as a Singleton in 
 Godot project settings.
 
-# Godot demo:
+### Godot demo:
 
 Responsible for handling the rendering and user 
 interaction layer. Defines entity client parts in the kbe_scripts 
@@ -27,7 +27,7 @@ When defining client entities, events are registered with the
 KBEngine.Event Singleton class in __init__(), and fired out from
 entity methods to be received by the render layer.
 	
-# Directory structure:
+### Directory structure:
 	
 kbe_plugin/: KBE plugin script files, KBEngine.gd set as Singleton
 kbe_scripts/: Contains all client entity definitions. Place all yours here
@@ -49,7 +49,7 @@ GameEntity.gd:
 Attached to rendering objects and handles smooth movement, HP/name 
 labels above 3D characters, etc
 
-## Screenshots
+# Screenshots
 
 ![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot1.png)
 ![alt text](https://raw.githubusercontent.com/krogank9/kbe_godot_demo/master/screenshot2.png)
