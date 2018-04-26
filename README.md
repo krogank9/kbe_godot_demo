@@ -28,26 +28,26 @@ KBEngine.Event Singleton class in __init__(), and fired out from
 entity methods to be received by the render layer.
 	
 ### Directory structure:
-	
-kbe_plugin/: KBE plugin script files, KBEngine.gd set as Singleton
-kbe_scripts/: Contains all client entity definitions. Place all yours here
-kbe_scripts/Account.gd: Account client entity definition. Created on login
-kbe_scripts/Account.gd: Avatar client entity definition.
-kbe_scripts/Monster.gd: Monster client entity definition.
-kbe_scripts/GameObject.gd: GameObject interface, fires events on property change
 
-UI.gd:
-UI script, catches events thrown by kbe_scripts and built-in 
-protocol events to display login success/fail notifications, allow 
-avatar creation/selection
+	kbe_plugin/: KBE plugin script files, KBEngine.gd set as Singleton
+	kbe_scripts/: Contains all client entity definitions. Place all yours here
+	kbe_scripts/Account.gd: Account client entity definition. Created on login
+	kbe_scripts/Account.gd: Avatar client entity definition.
+	kbe_scripts/Monster.gd: Monster client entity definition.
+	kbe_scripts/GameObject.gd: GameObject interface, fires events on property change
 
-World.gd:
-Manages 3D world, catches events and creates and destroys rendering 
-objects(mesh etc) for each kbe_script entity
+	UI.gd:
+	UI script, catches events thrown by kbe_scripts and built-in 
+	protocol events to display login success/fail notifications, allow 
+	avatar creation/selection
 
-GameEntity.gd:
-Attached to rendering objects and handles smooth movement, HP/name 
-labels above 3D characters, etc
+	World.gd:
+	Manages 3D world, catches events and creates and destroys rendering 
+	objects(mesh etc) for each kbe_script entity
+
+	GameEntity.gd:
+	Attached to rendering objects and handles smooth movement, HP/name 
+	labels above 3D characters, etc
 
 # Screenshots
 
