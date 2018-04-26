@@ -26,10 +26,8 @@ http://www.kbengine.org
 		In the kbe_godot_demo directory:
 
 		* Git command: git submodule update --init --remote
-![submodule_update1](http://www.kbengine.org/assets/img/screenshots/gitbash_submodule.png)
 
 		* Or use TortoiseGit(menu): TortoiseGit -> Submodule Update:
-![submodule_update2](http://www.kbengine.org/assets/img/screenshots/unity3d_plugins_submodule_update.jpg)
 
 		* Or manually get the demo-assets(server)
 
