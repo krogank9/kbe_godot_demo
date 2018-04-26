@@ -101,7 +101,8 @@ render layer.
 	
 	kbe_scripts/: Contains all client entity definitions. Place all yours here
 	kbe_scripts/Account.gd: Account client entity definition. Created on login
-	kbe_scripts/Account.gd: Avatar client entity definition.
+	kbe_scripts/Avatar.gd: Avatar client entity definition.
+	kbe_scripts/Gate.gd: Gate client entity definition.
 	kbe_scripts/Monster.gd: Monster client entity definition.
 	kbe_scripts/GameObject.gd: GameObject interface, fires events on property change
 
