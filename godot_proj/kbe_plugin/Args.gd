@@ -8,7 +8,7 @@ var clientType = 7#KBEngine.app.CLIENT_TYPE.CLIENT_TYPE_MINI
 # imported from the server can be persistent, if the 
 # protocol version does not change on the next login.
 #Can be loaded from the local cache to improve login speed.
-var persistentDataPath = ""
+var persistentDataPath = "user://persistentDataPath"
 
 #Whether to enable automatic synchronization of player
 # information to the server. Information includes
@@ -27,8 +27,9 @@ var callPropertySetMethodsOnInit = true
 
 #Start KBEngine client app on another thread
 #Note: when debugging, always use single threading.
-#Currently, godot does not have support for debugging/errors on multiple threads
-var isMultiThreads = true
+#Currently, godot does not have support for debugging/
+# errors on multiple threads
+var isMultiThreads = false
 
 #Only enabled in multithreaded mode
 #Thread main loop processing frequency

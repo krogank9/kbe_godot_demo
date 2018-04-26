@@ -5,6 +5,11 @@ var _isGood = false
 var _digest = ""
 
 func _init(path):
+	if path.ends_with("/"):
+		path = path.substr(0, len(path)-1)
+	if not path.begins_with("user://"):
+		path = "user://"+path
+	Directory.new().make_dir_recursive(path)
 	_persistentDataPath = path
 	_isGood = loadAll()
 
@@ -105,7 +110,7 @@ func loadFile(path, name, shouldPrintErr):
 	var datas = f.get_buffer(f.get_len())
 	f.close()
 	
-	KBEngine.Dbg.ERROR_MSG("loadFile: "+path+"/"+name +", datasize="+str(len(datas)))
+	KBEngine.Dbg.DEBUG_MSG("loadFile: "+path+"/"+name +", datasize="+str(len(datas)))
 	return datas
 
 func deleteFile(path, name):

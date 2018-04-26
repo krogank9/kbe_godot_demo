@@ -21,14 +21,6 @@ class ConnectState:
 func _init():
 	reset()
 
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		KBEngine.Dbg.DEBUG_MSG("NetworkInterface::_notification(): NOTIFICATION_PREDELETE");
-		if _socket != null:
-			_socket.disconnect_from_host()
-			_socket = null
-		#reset()
-
 func sock():
 	return _socket
 	
