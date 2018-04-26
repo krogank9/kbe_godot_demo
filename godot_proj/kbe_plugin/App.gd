@@ -52,6 +52,24 @@ var baseappPort = 0
 #Current status
 var currserver = ""
 var currstate = ""
+var serverStateMutex = Mutex.new()
+func setCurrServerState(server=null, state=null):
+	serverStateMutex.lock()
+	if server != null:
+		currserver = server
+	if state != null:
+		currstate = state
+	serverStateMutex.unlock()
+func getCurrServer():
+	serverStateMutex.lock()
+	var v = currserver
+	serverStateMutex.unlock()
+	return v
+func getCurrState():
+	serverStateMutex.lock()
+	var v = currstate
+	serverStateMutex.unlock()
+	return v
 
 #Bind the account bound to the server for downstream
 # login and client upstream login
@@ -107,6 +125,17 @@ var serverErrs = {}
 
 var _lastTickTime = OS.get_ticks_msec()
 var _lastTickCBTime = OS.get_ticks_msec()
+var tickCBMutex = Mutex.new()
+func set_lastTickCBTime(v):
+	tickCBMutex.lock()
+	_lastTickCBTime = v
+	tickCBMutex.unlock()
+func get_lastTickCBTime():
+	tickCBMutex.lock()
+	var v = _lastTickCBTime
+	tickCBMutex.unlock()
+	return v
+
 var _lastUpdateToServerTime = OS.get_ticks_msec()
 
 #The id of the player's current space, and the space's
@@ -197,8 +226,7 @@ func reset():
 	
 	clearEntities(true)
 	
-	currserver = ""
-	currstate = ""
+	setCurrServerState("","")
 	_serverdatas = []
 	serverVersion = ""
 	serverScriptVersion = ""
@@ -211,7 +239,7 @@ func reset():
 	_bufferedCreateEntityMessage.clear()
 	
 	_lastTickTime = OS.get_ticks_msec()
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 	_lastUpdateToServerTime = OS.get_ticks_msec()
 	
 	spaceID = 0
@@ -262,7 +290,7 @@ func sendTick():
 	if since_last_tick/1000 > _args.serverHeartbeatTick:
 		#If no callback was received from server in time for the next tick,
 		# the client should be notified that the connection has dropped
-		if _lastTickCBTime < _lastTickTime:
+		if get_lastTickCBTime() < _lastTickTime:
 			Dbg.ERROR_MSG("KBEngine::sendTick(): Received appTick timeout")
 			_networkInterface.close()
 			return
@@ -275,7 +303,7 @@ func sendTick():
 		if Messages.messages.has("Baseapp_onClientActiveTick"):
 			Baseapp_onClientActiveTickMsg = Messages.messages["Baseapp_onClientActiveTick"]
 		
-		if currserver == "loginapp":
+		if getCurrServer() == "loginapp":
 			if Loginapp_onClientActiveTickMsg != null:
 				var bundle = Bundle.createObject()
 				bundle.newMessage(Loginapp_onClientActiveTickMsg)
@@ -290,12 +318,12 @@ func sendTick():
 	
 #Server heartbeat callback
 func Client_onAppActiveTickCB():
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 	
 #Shake hands with the server. After connecting to any process, you should handshake with it the first time.
 func hello():
 	var bundle = Bundle.createObject()
-	if currserver == "loginapp":
+	if getCurrServer() == "loginapp":
 		bundle.newMessage(Messages.messages["Loginapp_hello"])
 	else:
 		bundle.newMessage(Messages.messages["Baseapp_hello"])
@@ -319,7 +347,7 @@ func Client_onHelloCB(stream):
 	
 	onServerDigest()
 	
-	if currserver == "baseapp":
+	if getCurrServer() == "baseapp":
 		onLogin_baseapp()
 	else:
 		onLogin_loginapp()
@@ -398,22 +426,21 @@ func login_loginapp(noconnect):
 		bundle.send(_networkInterface)
 
 func onConnectTo_loginapp_callback(ip, port, success, userData):
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 	print("App::onConnectTo_loginapp_callback()")
 	
 	if not success:
 		Dbg.ERROR_MSG("KBEngine::login_loginapp(): error connecting to %s:%s!" % [ip, port])
 		return
 	
-	currserver = "loginapp"
-	currstate = "login"
+	setCurrServerState("loginapp", "login")
 	
 	Dbg.DEBUG_MSG("KBEngine::login_loginapp(): connection to %s:%s successful!" % [ip, port])
 	
 	hello()
 
 func onLogin_loginapp():
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 	
 	if not loginappMessageImported_:
 		var bundle = Bundle.createObject()
@@ -441,21 +468,20 @@ func login_baseapp(noconnect):
 		bundle.send(_networkInterface)
 
 func onConnectTo_baseapp_callback(ip, port, success, userData):
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 	
 	if not success:
 		Dbg.ERROR_MSG("KBEngine::login_baseapp(): error connecting to %s:%s!" % [ip, port])
 		return
 	
-	currserver = "baseapp"
-	currstate = ""
+	setCurrServerState("baseapp", "")
 	
 	Dbg.DEBUG_MSG("KBEngine::login_baseapp(): connection to %s:%s successful!" % [ip, port])
 	
 	hello()
 
 func onLogin_baseapp():
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 	
 	if not baseappMessageImported_:
 		var bundle = Bundle.createObject()
@@ -492,7 +518,7 @@ func onReConnectTo_baseapp_callback(ip, port, success, userData):
 	bundle.writeInt32(entity_id)
 	bundle.send(_networkInterface)
 	
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 
 #Importing message protocol from binary stream
 func importMessagesFromMemoryStream(loginapp_clientMessages, baseapp_clientMessages, entitydefMessages, serverErrorsDescr):
@@ -501,15 +527,15 @@ func importMessagesFromMemoryStream(loginapp_clientMessages, baseapp_clientMessa
 	loadingLocalMessages_ = true
 	var stream = MemoryStream.createObject()
 	stream.append(loginapp_clientMessages, 0, len(loginapp_clientMessages))
-	currserver = "loginapp"
+	setCurrServerState("loginapp", null)
 	onImportClientMessages(stream)
 	stream.reclaimObject()
 	
 	stream = MemoryStream.createObject()
 	stream.append(baseapp_clientMessages, 0, len(baseapp_clientMessages))
-	currserver = "baseapp"
+	setCurrServerState("baseapp", null)
 	onImportClientMessages(stream)
-	currserver = "loginapp"
+	setCurrServerState("loginapp", null)
 	stream.reclaimObject()
 	
 	stream = MemoryStream.createObject()
@@ -528,7 +554,7 @@ func importMessagesFromMemoryStream(loginapp_clientMessages, baseapp_clientMessa
 	entitydefImported_ = true
 	isImportServerErrorsDescr_ = true
 	
-	currserver = ""
+	setCurrServerState("", null)
 	Dbg.DEBUG_MSG("KBEngine::importMessagesFromMemoryStream(): completed successfuly!")
 	return true
 
@@ -536,9 +562,9 @@ func importMessagesFromMemoryStream(loginapp_clientMessages, baseapp_clientMessa
 #Importing message protocol from binary stream is complete
 func onImportClientMessagesCompleted():
 	Dbg.DEBUG_MSG("KBEngine::onImportClientMessagesCompleted: successful! currserver=" + 
-				currserver + ", currstate=" + currstate)
+				getCurrServer() + ", currstate=" + getCurrState())
 	
-	if currserver == "loginapp":
+	if getCurrServer() == "loginapp":
 		if not isImportServerErrorsDescr_ and not loadingLocalMessages_:
 			Dbg.DEBUG_MSG("KBEngine::onImportClientMessagesCompleted(): send importServerErrorsDescr!")
 			isImportServerErrorsDescr_ = true
@@ -546,13 +572,14 @@ func onImportClientMessagesCompleted():
 			bundle.newMessage(Messages.messages["Loginapp_importServerErrorsDescr"])
 			bundle.send(_networkInterface)
 		
-		if currstate == "login":
+		var _currstate = getCurrState()
+		if _currstate == "login":
 			login_loginapp(false)
-		elif currstate == "autoimport":
+		elif _currstate == "autoimport":
 			pass
-		elif currstate == "resetpassword":
+		elif _currstate == "resetpassword":
 			resetpassword_loginapp(false)
-		elif currstate == "createAccount":
+		elif _currstate == "createAccount":
 			createAccount_loginapp(false)
 		
 		loginappMessageImported_ = true
@@ -790,11 +817,11 @@ func Client_onImportClientMessages(stream):
 	onImportClientMessages(stream)
 	
 	if _persistentInfos != null:
-		_persistentInfos.onImportClientMessages(currserver, data)
+		_persistentInfos.onImportClientMessages(getCurrServer(), data)
 
 func onImportClientMessages(stream):
 	var msgcount = stream.readUint16()
-	Dbg.DEBUG_MSG("KBEngine::Client_onImportClientMessages: start currserver=" + currserver + "(msgsize="+str(msgcount)+") ...")
+	Dbg.DEBUG_MSG("KBEngine::Client_onImportClientMessages: start currserver=" + getCurrServer() + "(msgsize="+str(msgcount)+") ...")
 	
 	while msgcount > 0:
 		msgcount -= 1
@@ -817,7 +844,7 @@ func onImportClientMessages(stream):
 			handler = msgname
 			if not self.has_method(handler):
 				Dbg.WARNING_MSG("KBEngine::onImportClientMessages[%s]: interface(%s/%s/%s) not implemented!"
-								% [currserver, msgname, msgid, msglen])
+								% [getCurrServer(), msgname, msgid, msglen])
 				handler = null
 		
 		if len(msgname) > 0:
@@ -826,14 +853,14 @@ func onImportClientMessages(stream):
 			if isClientMethod:
 				Messages.clientMessages[msgid] = Messages.messages[msgname]
 			else:
-				if currserver == "loginapp":
+				if getCurrServer() == "loginapp":
 					Messages.loginappMessages[msgid] = Messages.messages[msgname]
 				else:
 					Messages.baseappMessages[msgid] = Messages.messages[msgname]
 		else:
 			var msg = Messages.Message.new(msgid, msgname, msglen, argstype, argstypes, handler)
 			
-			if currserver == "loginapp":
+			if getCurrServer() == "loginapp":
 				Messages.loginappMessages[msgid] = msg
 			else:
 				Messages.baseappMessages[msgid] = msg
@@ -842,9 +869,8 @@ func onImportClientMessages(stream):
 
 func onOpenLoginapp_resetpassword():
 	Dbg.DEBUG_MSG("KBEngine::onOpenLoginapp_resetpassword: successful!")
-	currserver = "loginapp"
-	currstate = "resetpassword"
-	_lastTickCBTime = OS.get_ticks_msec()
+	setCurrServerState("loginapp", "resetpassword")
+	set_lastTickCBTime(OS.get_ticks_msec())
 	
 	if not loginappMessageImported_:
 		var bundle = Bundle.createObject()
@@ -871,7 +897,7 @@ func resetpassword_loginapp(noconnect):
 		bundle.send(_networkInterface)
 
 func onConnectTo_resetpassword_callback(ip, port, success, userData):
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 	
 	if not success:
 		Dbg.ERROR_MSG("KBEngine::resetpassword_loginapp(): failed to connect to %s:%s!" % [ip, port])
@@ -943,9 +969,8 @@ func createAccount_loginapp(noconnect):
 
 func onOpenLoginapp_createAccount():
 	Dbg.DEBUG_MSG("KBEngine::onOpenLoginapp_createAccount: successful!")
-	currserver = "loginapp"
-	currstate = "createAccount"
-	_lastTickCBTime = OS.get_ticks_msec()
+	setCurrServerState("loginapp", "createAccount")
+	set_lastTickCBTime(OS.get_ticks_msec())
 	
 	if not loginappMessageImported_:
 		var bundle = Bundle.createObject()
@@ -957,7 +982,7 @@ func onOpenLoginapp_createAccount():
 
 		
 func onConnectTo_createAccount_callback(ip, port, success, userData):
-	_lastTickCBTime = OS.get_ticks_msec()
+	set_lastTickCBTime(OS.get_ticks_msec())
 	
 	if not success:
 		Dbg.ERROR_MSG("KBEngine::createAccount_loginapp(): failed to connect to %s:%s!" % [ip, port])
@@ -969,7 +994,7 @@ func onConnectTo_createAccount_callback(ip, port, success, userData):
 #Obtained server summary information, summary includes protocol MD5, entitydefMD5
 func onServerDigest():
 	if _persistentInfos != null:
-		_persistentInfos.onServerDigest(currserver, serverProtocolMD5, serverEntitydefMD5)
+		_persistentInfos.onServerDigest(getCurrServer(), serverProtocolMD5, serverEntitydefMD5)
 
 #Login through loginapp failed
 func Client_onLoginFailed(stream):

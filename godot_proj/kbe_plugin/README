@@ -1,25 +1,17 @@
 
 ## todo
 
- PersistentInfos loadAll() doesn't have try/catch like C#. make sure works
- PersistentInfos file read/write should maybe use "user://" paths if it isn't passed them
-
- does events mutex need if(KBEngineApp.app == null) for monitor_Enter/Exit funcs?
-
  Eventually fix grammar of functions/variables
  
  App.gd line 1383 updatePlayerToServer() -- maybe godot already normalizes radians. check back
  
  not quite sure what FLT_MAX checks are in _updateVolatileData -- leaving for now. maybe change later
  
- CB tick vars should maybe have mutex in App.gd
- 
 ----
 
  -the return false thing. there was a return false somewhere with weird indentation after if statement in c# plugin. need to find again
  
- -connection drops sometimes without notifying client. networkinterface invalid when try to move
- -onKicked doesn't always work correctly. can bug it out sometimes by logging in
+ -onKicked doesn't always work correctly. can bug it out sometimes by logging in same account on other client
 
 ###godot bugs
  crash once occured replacing many semicolons in large selection
