@@ -26,7 +26,7 @@ when creating entities via the servers command. `__init__()` and
 When defining client entities, "in" events (render -> plugin) are 
 registered with the KBEngine.Event Singleton class in `__init__()`, and
 fired "out" (plugin -> render) from entity methods to be received by the
-render layer.
+render layer. 
 	
 ### Directory structure:
 
