@@ -100,7 +100,7 @@ render layer.
 	kbe_scripts/GameObject.gd: GameObject interface, fires events on property change
 
 	UI.gd:
-	UI script, catches events thrown by kbe_scripts and built-in 
+	UI script, catches events thrown "out" by kbe_scripts and built-in 
 	protocol events to display login success/fail notifications, allow 
 	avatar creation/selection
 
