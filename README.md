@@ -1,4 +1,4 @@
-KBEngine_unity3d_demo
+KBEngine Godot demo
 =============
 
 ## This client-project is written for KBEngine (MMOG server engine)
