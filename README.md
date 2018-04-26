@@ -1,6 +1,6 @@
 # KBEngine Godot Demo
 
-KBE godot demo
+KBE godot demo and plugin
 
 # Plugin & Demo explanation:
 
