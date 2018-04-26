@@ -82,7 +82,7 @@ directory (or its subdirectories), which is where the plugin looks
 when creating entities via the servers command. `__init__()` and 
 `onDestroy()` are called for notifications about entities lifecycles.
 When defining client entities, "in" events (render -> plugin) are 
-registered with the KBEngine.Event Singleton class in `__init__()`, and
+registered using the KBEngine.Event object in `__init__()`, and
 fired "out" (plugin -> render) from entity methods to be received by the
 render layer. 
 	
