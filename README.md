@@ -64,7 +64,7 @@ http://www.kbengine.org
 ## Start the Client:
 
 	Directly start from Godot editor or executable
-	(Build the client： Godot -> Project -> Export Linux/Mac/Windows.)
+	(To build the client： Godot -> Project -> Export Linux/Mac/Windows.)
 	
 
 # Plugin & Demo explanation:
