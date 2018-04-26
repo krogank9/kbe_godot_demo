@@ -23,7 +23,7 @@ http://www.kbengine.org
 
 	2. Use git to get the demo-assets(server):
 
-		In the kbengine_unity3d_demo directory:
+		In the kbe_godot_demo directory:
 
 		* Git command: git submodule update --init --remote
 ![submodule_update1](http://www.kbengine.org/assets/img/screenshots/gitbash_submodule.png)
@@ -37,13 +37,13 @@ http://www.kbengine.org
 				https://github.com/kbengine/kbengine_demos_assets/releases/latest
 				unzip and copy to "kbengine/"  (The root directory server engine, such as $KBE_ROOT)
 
-	3. Copy "kbengine_unity3d_demo\kbengine_demos_assets" to "kbengine\" root directory
+	3. Copy "kbengine_demos_assets" to "kbengine\" root directory
 ![demo_configure](http://www.kbengine.org/assets/img/screenshots/demo_copy_kbengine.jpg)
 
 
 ## Start the Servers:
 
-	Ensure that the "kbengine_unity3d_demo\kbengine_demos_assets" has been copied to the "kbengine\" directory
+	Ensure that the "kbengine_demos_assets" has been copied to the "kbengine\" directory
 		Reference：Start
 
 	Check the startup status:
@@ -63,8 +63,8 @@ http://www.kbengine.org
 
 ## Start the Client:
 
-	Directly start(U3DEditor or Executable file).
-	(Build Client：Unity Editor -> File -> Build Settings -> PC, MAC & Linux Standalone.)
+	Directly start from Godot editor or executable
+	(Build the client： Godot -> Project -> Export Linux/Mac/Windows.)
 
 
 ## Navmesh-navigation(Optional):
