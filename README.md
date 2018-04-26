@@ -5,10 +5,6 @@ KBEngine Godot demo
 
 http://www.kbengine.org
 
-## Releases
-
-	sources		: https://github.com/krogank9/kbe_godot_demo/releases/latest
-
 
 ## Start:
 	1. Download KBEngine (MMOG server engine):
