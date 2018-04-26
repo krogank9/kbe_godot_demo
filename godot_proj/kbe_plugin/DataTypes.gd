@@ -217,7 +217,9 @@ class STRING extends BASE:
 	func parseDefaultValStr(v):
 		return v
 	func isSameType(v):
-		return typeof(v) == TYPE_REAL
+		if typeof(v) != TYPE_STRING:
+			return false
+		return v.to_ascii().get_string_from_ascii() == v
 
 class VECTOR2 extends BASE:
 	func TYPENAME():
