@@ -21,10 +21,10 @@ Godot project settings.
 Responsible for handling the rendering and user 
 interaction layer. Defines entity client parts in the kbe_scripts 
 directory (or its subdirectories), which is where the plugin looks
-when creating entities via the servers command. __init__() and 
-onDestroy() are called for notifications about entities' lifecycles.
+when creating entities via the servers command. `__init__()` and 
+`onDestroy()` are called for notifications about entities' lifecycles.
 When defining client entities, events are registered with the 
-KBEngine.Event Singleton class in __init__(), and fired out from
+KBEngine.Event Singleton class in `__init__()`, and fired out from
 entity methods to be received by the render layer.
 	
 ### Directory structure:
