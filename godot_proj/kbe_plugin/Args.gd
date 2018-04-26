@@ -29,6 +29,8 @@ var SEND_BUFFER_MAX = 2048#1460 KBEngine.TCP_PACKET_MAX
 var RECV_BUFFER_MAX = 8192#1460 KBEngine.TCP_PACKET_MAX
 
 #Start KBEngine client app on another thread
+#Note: when debugging, always use single threading.
+#Currently, godot does not have support for debugging/errors on multiple threads
 var isMultiThreads = true
 
 #Only enabled in multithreaded mode
