@@ -1,5 +1,8 @@
 extends "res://kbe_plugin/Entity.gd"
 
+func renderObj():
+	return renderObj.get_ref()
+
 func set_HP(old):
 	var v = getDefinedProperty("HP")
 	KBEngine.Event.fireOut("set_HP", [self, v])

@@ -5,7 +5,8 @@ var PlayerScene = preload("res://Player.tscn")
 var OtherPlayerScene = preload("res://OtherPlayer.tscn")
 var CharScene = preload("res://Char.tscn")
 
-var player = null
+var player = weakref(Reference.new())
+
 var playerYVel = 0
 var groundHeight = 1.5
 var jumpVel = 20
@@ -18,9 +19,8 @@ func addInstance(scene, pos, dir):
 	return node
 
 func clearWorld():
-	if player != null:
-		player.queue_free()
-		player = null
+	if player.get_ref() != null:
+		player.get_ref().queue_free()
 	for child in $Entities.get_children():
 		child.queue_free()
 	
@@ -57,12 +57,15 @@ func _ready():
 	KBEngine.Event.registerOut("onAddSkill", self, "onAddSkill")
 
 func _process(delta):
-	createPlayer()
-	_player_process(delta)
+	if self.visible:
+		createPlayer()
+		_player_process(delta)
 	
 func _player_process(delta):
-	if player == null:
+	if player.get_ref() == null:
 		return
+	var _player = player.get_ref()
+	
 	var speed = 10
 	var direction = Vector3(0,0,0)
 	var rotchange = 0
@@ -70,7 +73,7 @@ func _player_process(delta):
 		rotchange = 5 * delta
 	elif Input.is_action_pressed("ui_right"):
 		rotchange = -5 * delta
-	player.rotation.y += rotchange
+	_player.rotation.y += rotchange
 	
 	if Input.is_action_pressed("ui_up"):
 		direction.z -= 1
@@ -78,29 +81,25 @@ func _player_process(delta):
 		direction.z += 1
 	var change = direction.normalized() * speed * delta
 	
-	playerYVel -= 40*delta
-	change.y += playerYVel*delta
-	player.translate_object_local(change)
-	player.destPos = player.translation
+	_player.translate_object_local(change)
+	_player.destPos = _player.translation
 	
-	if player.translation.y <= groundHeight:
-		player.translation.y = groundHeight
-		playerYVel = 0
-	if Input.is_key_pressed(KEY_SPACE) and player.translation.y == groundHeight:
-		playerYVel = jumpVel
+	if Input.is_key_pressed(KEY_SPACE) and _player.translation.y == groundHeight:
+		player.get_ref().queueJump = true
 		KBEngine.Event.fireIn("jump")
 		#KBEngine.app.player().isOnGround = false
 	
 	#UI.info("player pos: (%s,%s,%s)" % [KBEngine.app.player().position.x, KBEngine.app.player().position.y, KBEngine.app.player().position.z])
-	var pos = convert_pos(player.translation)
-	KBEngine.Event.fireIn("updatePlayer", [KBEngine.app.spaceID, pos.x, groundHeight, pos.z, player.rotation.y])
+	var pos = convert_pos(_player.translation)
+	KBEngine.Event.fireIn("updatePlayer", [KBEngine.app.spaceID, pos.x, groundHeight, pos.z, _player.rotation.y])
 
 func createPlayer():
-	if player != null:
+	if player.get_ref() != null:
 		return
 	
 	if KBEngine.app.entity_type != "Avatar":
 		return
+	print("creating player")
 	var avatar = KBEngine.app.player()
 	if avatar == null or (avatar.position.x == 0 and avatar.position.y == 0 and avatar.position.z == 0):
 		return
@@ -109,8 +108,8 @@ func createPlayer():
 	if avatar.isOnGround:
 		pos.y = groundHeight
 
-	player = addInstance(PlayerScene, pos, convert_dir(avatar.direction))
-	avatar.renderObj = player
+	avatar.renderObj = addInstance(PlayerScene, pos, convert_dir(avatar.direction))
+	player = weakref(avatar.renderObj)
 	
 	set_position(avatar)
 	set_direction(avatar)
@@ -139,11 +138,7 @@ func onLeaveWorld(entity):
 	if entity.renderObj == null:
 		return
 	
-	if entity.renderObj == player:
-		player = null
-	
 	entity.renderObj.queue_free()
-	entity.renderObj = null
 	
 func set_position(entity):
 	if entity.renderObj == null:
@@ -178,7 +173,6 @@ func onControlled(entity, isControlled):
 
 func set_HP(entity, val):
 	if entity.renderObj == null:
-		KBEngine.Dbg.WARNING_MSG("Tried to call set_HP on %s before ent has renderObj" % entity.className)
 		return
 	entity.renderObj.HP = val
 
@@ -187,7 +181,6 @@ func set_MP(entity, val):
 
 func set_HP_Max(entity, val):
 	if entity.renderObj == null:
-		KBEngine.Dbg.WARNING_MSG("Tried to call set_HP_max on %s before ent has renderObj" % entity.className)
 		return
 	entity.renderObj.HP_max = val
 

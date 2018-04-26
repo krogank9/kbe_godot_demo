@@ -67,7 +67,7 @@ _sections_unfolded = [ "Albedo", "Flags" ]
 radius = 1.0
 height = 1.0
 
-[node name="Player" type="KinematicBody" index="0"]
+[node name="Player" type="KinematicBody"]
 
 input_ray_pickable = true
 input_capture_on_drag = false

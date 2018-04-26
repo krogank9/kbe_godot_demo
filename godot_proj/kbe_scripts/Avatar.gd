@@ -11,7 +11,7 @@ func updatePlayer(currSpaceID, x, y, z, yaw):
 		return
 	
 	var newpos = Vector3(x,y,z)
-	if newpos.distance_to(position) < 10:
+	if newpos.distance_to(self.position) < 10:
 		position.x = x
 		position.y = y
 		position.z = z

@@ -14,7 +14,15 @@ var velocity = 0
 
 var isOnGround = true
 
-var renderObj = null
+var renderObj = null setget _setRenderObj,_getRenderObj
+var _renderObjWeakref = weakref(Reference.new())
+func _setRenderObj(val):
+	if val == null:
+		_renderObjWeakref = weakref(Reference.new())
+	else:
+		_renderObjWeakref = weakref(val)
+func _getRenderObj():
+	return _renderObjWeakref.get_ref()
 
 var baseEntityCall = null
 var cellEntityCall = null

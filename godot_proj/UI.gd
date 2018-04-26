@@ -9,14 +9,14 @@ func set_game_state(state):
 	if state == STATE_LOGIN:
 		$loginWindow.show()
 		$avatarWindow.hide()
-		get_node("../World").clearWorld()
 		get_node("../World").hide()
+		get_node("../World").clearWorld()
 	elif state == STATE_AVATAR:
 		clearAvatarList()
 		$avatarWindow.show()
 		$loginWindow.hide()
-		get_node("../World").clearWorld()
 		get_node("../World").hide()
+		get_node("../World").clearWorld()
 	elif state == STATE_WORLD:
 		$avatarWindow.hide()
 		$loginWindow.hide()
