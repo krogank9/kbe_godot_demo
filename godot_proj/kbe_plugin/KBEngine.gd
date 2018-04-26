@@ -8,7 +8,6 @@ const TCP_PACKET_MAX = 1460
 
 # preload all globals
 var Dbg = preload("res://kbe_plugin/Dbg.gd").new()
-var Includes = preload("res://kbe_plugin/Includes.gd")
 
 var NetworkInterface = preload("res://kbe_plugin/NetworkInterface.gd")
 var PacketSender = preload("res://kbe_plugin/PacketSender.gd")
