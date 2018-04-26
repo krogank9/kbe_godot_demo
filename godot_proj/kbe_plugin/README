@@ -7,6 +7,8 @@
  
  not quite sure what FLT_MAX checks are in _updateVolatileData -- leaving for now. maybe change later
  
+ movement smoothing not working right
+ 
 ----
 
  -the return false thing. there was a return false somewhere with weird indentation after if statement in c# plugin. need to find again
