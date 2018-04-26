@@ -10,11 +10,6 @@ http://www.kbengine.org
 	sources		: https://github.com/krogank9/kbe_godot_demo/releases/latest
 
 
-## KBE-Plugins docs
-
-	godot_proj/kbe_plugin/kbengine_unity3d_plugins/README.md
-
-
 ## Start:
 	1. Download KBEngine (MMOG server engine):
 		Download(KBEngine):
