@@ -66,7 +66,7 @@ func _player_process(delta):
 		return
 	var _player = player.get_ref()
 	
-	var speed = 10
+	var speed = _player.moveSpeed
 	var direction = Vector3(0,0,0)
 	var rotchange = 0
 	if Input.is_action_pressed("ui_left"):
@@ -148,7 +148,8 @@ func set_position(entity):
 	if entity.isOnGround:
 		pos.y = groundHeight
 	entity.renderObj.destPos = pos
-	entity.renderObj.translation = pos
+	entity.renderObj.translation.x = pos.x
+	entity.renderObj.translation.z = pos.z
 
 func set_direction(entity):
 	if entity.renderObj == null:

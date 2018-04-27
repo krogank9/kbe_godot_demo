@@ -25,6 +25,7 @@ func _ready():
 	name_label.hide()
 	add_child(hp_label)
 	add_child(name_label)
+	self.translation.y = 1.5
 	pass
 
 var lastSetHP = -1

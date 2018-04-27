@@ -5,17 +5,19 @@ func __init__():
 		KBEngine.Event.registerIn("updatePlayer", self, "updatePlayer")
 		KBEngine.Event.registerIn("jump", self, "jump")
 		KBEngine.Event.registerIn("relive", self, "relive")
-	
+
+var posAtLastUpdate = null
 func updatePlayer(currSpaceID, x, y, z, yaw):
 	if currSpaceID > 0 and currSpaceID != KBEngine.app.spaceID:
 		return
 	
-	var newpos = Vector3(x,y,z)
-	if newpos.distance_to(self.position) < 10:
+	# don't change position if position was forced back
+	if posAtLastUpdate == null or position == posAtLastUpdate:
 		position.x = x
 		position.y = y
 		position.z = z
 	
+	posAtLastUpdate = Vector3(position)
 	direction.z = yaw
 
 func onJump():
