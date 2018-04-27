@@ -91,7 +91,8 @@ render layer.
 	kbe_plugin/: KBE plugin script files
 	kbe_plugin/KBEngine.gd: Set as Singleton which starts/manages plugin
 	kbe_plugin/Args.gd: Modify to change KBE client settings
-	kbe_plugin/Entity.gd: Entity base class. All entities in kbe_scripts inherit this. Note renderObj property is a weakref.
+	kbe_plugin/Entity.gd: Entity base class. All entities in kbe_scripts inherit this.
+	Note Entity.renderObj property is a weakref.
 	
 	kbe_scripts/: Contains all client entity definitions. Place all yours here
 	kbe_scripts/Account.gd: Account client entity definition. Created on login
